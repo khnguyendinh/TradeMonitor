@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: trade-monitor-backend
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/trademonitor_db
+    username: trademonitor
+    password: trademonitor123
+    pool:
+      max-size: 20
+      initial-size: 5
+  sql:
+    init:
+      mode: always # Tự động chạy schema.sql khi khởi động
+
+server:
+  port: 8080
+
+telegram:
+  bot-token: "${TELEGRAM_BOT_TOKEN:placeholder_token}"
+  chat-id: "${TELEGRAM_CHAT_ID:placeholder_chat_id}"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  tracing:
+    sampling:
+      probability: 1.0
