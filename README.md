@@ -51,9 +51,21 @@ docker run -d --name postgres-trademonitor \
 *Note: The database schema is automatically initialized by Spring Boot on startup via `schema.sql`.*
 
 ### 2. Start the Backend
-Navigate to the `backend` directory and run the Spring Boot application:
+Navigate to the `backend` directory and run the Spring Boot application. 
+
+*If you have multiple JDKs installed, make sure to point `JAVA_HOME` to JDK 25 before running Maven:*
+
+**For Windows (PowerShell):**
+```powershell
+cd backend
+$env:JAVA_HOME="C:\Program Files\Java\jdk-25.0.2"
+mvn spring-boot:run
+```
+
+**For Mac/Linux:**
 ```bash
 cd backend
+export JAVA_HOME=/path/to/your/jdk-25
 mvn spring-boot:run
 ```
 *The backend server will start on `http://localhost:8080`.*
