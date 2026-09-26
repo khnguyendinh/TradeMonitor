@@ -43,10 +43,10 @@
             <scope>runtime</scope>
         </dependency>
         
-        <!-- PostgreSQL JDBC Driver (Required for Schema initialization in some cases/flyway) -->
+        <!-- H2 R2DBC Driver (profile "h2": chạy local không cần PostgreSQL) -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -98,6 +98,20 @@
 
     <build>
         <plugins>
+            <!-- JDK 23+ không tự chạy annotation processor => phải khai báo Lombok tường minh -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

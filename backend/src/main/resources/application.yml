@@ -2,28 +2,35 @@ spring:
   application:
     name: trade-monitor-backend
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/trademonitor_db
-    username: trademonitor
-    password: trademonitor123
+    url: ${DB_URL:r2dbc:postgresql://localhost:5432/trademonitor_db}
+    username: ${DB_USERNAME:trademonitor}
+    password: ${DB_PASSWORD:trademonitor123}
     pool:
       max-size: 20
       initial-size: 5
-  sql:
-    init:
-      mode: always # Tự động chạy schema.sql khi khởi động
+  webflux:
+    multipart:
+      max-in-memory-size: 20MB
+  codec:
+    max-in-memory-size: 20MB
 
 server:
   port: 8080
 
-telegram:
-  bot-token: "${TELEGRAM_BOT_TOKEN:placeholder_token}"
-  chat-id: "${TELEGRAM_CHAT_ID:placeholder_chat_id}"
+trademonitor:
+  # Script khởi tạo schema, chạy mỗi lần start (idempotent)
+  schema-location: classpath:schema.sql
+  # Các giá trị mặc định; có thể sửa trên màn Settings (lưu vào bảng app_settings)
+  initial-balance: 10000
+  alerts:
+    max-drawdown-percent: 10
+    large-loss-amount: 500
+  telegram:
+    bot-token: "${TELEGRAM_BOT_TOKEN:}"
+    chat-id: "${TELEGRAM_CHAT_ID:}"
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,prometheus
-  tracing:
-    sampling:
-      probability: 1.0
+        include: health,info

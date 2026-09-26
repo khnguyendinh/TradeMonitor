@@ -1,0 +1,11 @@
+# Profile chạy thử không cần PostgreSQL:
+#   mvn spring-boot:run -Dspring-boot.run.profiles=h2
+# Dữ liệu nằm trong RAM, mất khi tắt ứng dụng.
+spring:
+  r2dbc:
+    url: r2dbc:h2:mem:///trademonitor?options=DB_CLOSE_DELAY=-1;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    username: sa
+    password:
+
+trademonitor:
+  schema-location: classpath:schema-h2.sql

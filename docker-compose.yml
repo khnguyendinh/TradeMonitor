@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres-trademonitor
+    environment:
+      POSTGRES_USER: trademonitor
+      POSTGRES_PASSWORD: trademonitor123
+      POSTGRES_DB: trademonitor_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - trademonitor-pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  trademonitor-pgdata:
